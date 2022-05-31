@@ -1,0 +1,22 @@
+{
+  "name": "apt-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "scanner.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Michael Perl",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.11",
+    "cors": "^2.8.5",
+    "csv-writer": "^1.6.0",
+    "express": "^4.18.1",
+    "requests": "^0.3.0",
+    "write-excel-file": "^1.4.4",
+    "xlsx": "^0.18.5"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@chakra-ui/icons": "^2.0.1",
+    "@chakra-ui/react": "^2.1.2",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^14.2.0",
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.11",
+    "cheerio-react": "^1.0.2",
+    "csv-writer": "^1.6.0",
+    "framer-motion": "^6.3.4",
+    "http-proxy-middleware": "^2.0.6",
+    "react": "^18.1.0",
+    "react-csv": "^2.2.2",
+    "react-dom": "^18.1.0",
+    "react-google-places-autocomplete": "^3.3.4",
+    "react-icons": "^4.3.1",
+    "react-scripts": "5.0.1",
+    "react-sweet-progress": "^1.1.2",
+    "requests": "^0.3.0",
+    "stream": "0.0.2",
+    "stream-browserify": "^3.0.0",
+    "street-suffix": "^1.0.1",
+    "util": "^0.12.4",
+    "web-vitals": "^0.2.4",
+    "write-excel-file": "^1.4.4",
+    "xlsx": "^0.18.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "react-router-dom": "^6.3.0"
+  }
+}
