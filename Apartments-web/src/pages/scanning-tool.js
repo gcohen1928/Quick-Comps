@@ -23,24 +23,9 @@ import { useState, useEffect } from 'react';
 import { Link as RouteLink } from 'react-router-dom';
 import { writeCSV } from '../service/example2';
 import { CSVLink } from 'react-csv';
+import { CSVHEADER, ERRORS } from '../text/text';
 
-const header = [
-    { label: 'Property_Title', key: 'name' },
-    { label: 'State', key: 'state' },
-    { label: 'City', key: 'city' },
-    { label: 'Zip', key: 'zip' },
-    { label: 'Address', key: 'addy' },
-    { label: 'Year', key: 'year' },
-    { label: 'Phone', key: 'phone' },
-    { label: 'Link', key: 'link' },
-    { label: 'Beds', key: 'bed' },
-    { label: 'Baths', key: 'bath' },
-    { label: 'SQFT', key: 'sf' },
-    { label: 'Rent', key: 'rent' },
-    { label: 'PSF', key: 'psf' },
-    { label: 'APTCOUNT', key: 'num' },
-    { label: 'Availabilty', key: 'avail' }
-]
+
 
 var suffix = require("street-suffix")
 // import { geocodeByAddress } from 'react-google-places-autocomplete';
@@ -70,20 +55,15 @@ export default function ScanningTool() {
                     if (response.status === 200)
                         response.json().then(data => {
                             console.log('Worked!')
-                            console.dir(data)
-                            console.log(data)
                             setData(data)
                         })
                     else if (response.status === 204) {
-                        setData(['Error', 'No properties available in this locaiton. Please search another place'])
-                        console.log("Empty Array")
+                        setData(['Error', ERRORS[204]])
                     } else if (response.status === 503) {
-                        setData(['Error', 'It looks like our server is down :(. Come check back in a little to see if we\'re back online!'])
-                        console.log('API not working')
+                        setData(['Error', ERRORS[503]])
                     }
                 }).catch(e => {
-                    setData(['Error', 'It looks like your computer failed to reach our servers. Ensure you have a good internet connection and try again.'])
-                    console.log('Failed to fetch')
+                    setData(['Error', ERRORS[1]])
                     console.error(e)
                 })
         }
@@ -103,6 +83,7 @@ export default function ScanningTool() {
             var state = stringArray[1].toString().toLowerCase().replace(" ", "")
             setFormattedVal(city + "-" + state)
         }
+        //TO DO Implement search by zipcode
         else if (searchVal && type === "address") {
             var stringArray = searchVal.label.split(",")
             var address = stringArray[0].toString().toLowerCase().replace(" ", "-")
@@ -113,6 +94,8 @@ export default function ScanningTool() {
             var state = stringArray[2].toString().toLowerCase().replace("", "")
             setFormattedVal(address + "_" + city + "-" + state)
         }
+
+        //TO DO Implement search by zipcode
     }, [searchVal]);
 
 
@@ -120,8 +103,7 @@ export default function ScanningTool() {
         <>
             <Flex
                 w={'full'}
-                h={'80vh'}
-
+                h={'60vh'}
                 backgroundImage={
                     'url(https://i.postimg.cc/bv0FR9kk/image-1.jpg)'
 
@@ -165,7 +147,6 @@ export default function ScanningTool() {
                                 debounce={2000}
                                 minLengthAutocomplete={3}
                             />
-
                             {(searchVal !== "") &&
                                 <Button _hover={{
                                     background: "green.400",
@@ -178,6 +159,7 @@ export default function ScanningTool() {
                             }
                             {data.length === 0 &&
                                 < Stack w='full' justifyContent={'center'} >
+
                                     <Text alignSelf={'center'} color="white">Your CSV is loading ... This should take up to 1 minute</Text>
                                     <Progress colorScheme="green" isAnimated hasStripe height={'25px'}
                                         value={100} />
@@ -190,7 +172,7 @@ export default function ScanningTool() {
                                     alignItems='center'
                                     justifyContent='center'
                                     textAlign='center'
-                                    height='200px'
+                                    height='250px'
                                 >
                                     <AlertIcon boxSize='40px' mr={0} />
                                     <AlertTitle mt={4} mb={1} fontSize='lg'>
@@ -199,11 +181,16 @@ export default function ScanningTool() {
                                     <AlertDescription maxWidth='sm'>
                                         Press the button below to download your CSV file
                                     </AlertDescription>
-                                    <CSVLink headers={header} data={data} filename="bsedata.csv">
-                                        <Button alignSelf={'center'}>Download CSV</Button>
+                                    <CSVLink headers={CSVHEADER} data={data} filename={`quick-comps-${formattedVal}.csv`}>
+                                        <Button
+
+                                            _hover={{
+                                                background: "green.400",
+                                                color: "white",
+                                            }} w="full" color={'white'} bg={'green.600'}
+                                            mt={5} alignSelf={'center'}>Download CSV</Button>
                                     </CSVLink>
                                 </Alert>
-
 
                             )}
                             {data && data.length > 1 && (data[0] === 'Error') &&
@@ -217,8 +204,11 @@ export default function ScanningTool() {
                                     height='200px'
                                 >
                                     <AlertIcon boxSize='40px' mr={0} />
-                                    <AlertTitle mt={4} mb={1} fontSize='lg'>
-                                        Uh Oh! It looks like an error has occcured:
+                                    <AlertTitle mt={4} fontSize='lg'>
+                                        Uh Oh!
+                                    </AlertTitle>
+                                    <AlertTitle mt={2} mb={4} fontSize='md'>
+                                        It looks like an error has occcured:
                                     </AlertTitle>
                                     <AlertDescription maxWidth='sm'>
                                         {data[1]}
