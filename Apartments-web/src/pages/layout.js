@@ -3,7 +3,7 @@ import { Outlet, Link } from "react-router-dom";
 const Layout = () => {
   return (
     <>
-      <nav>
+      <nav id="router-dom" >
         <ul>
           <li>
             <Link to="/"></Link>
@@ -11,10 +11,12 @@ const Layout = () => {
           <li>
               <Link to = '/scanning-tool'></Link>
           </li>
+          <li>
+              <Link to = '/pricing'></Link>
+          </li>
         </ul>
       </nav>
-
-      <Outlet />
+      <Outlet/>
     </>
   )
 };
