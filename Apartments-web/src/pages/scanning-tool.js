@@ -103,12 +103,12 @@ export default function ScanningTool() {
             var city = stringArray[1].toString().toLowerCase().replace(" ", "")
             var state = stringArray[2].toString().toLowerCase().replace("", "")
             setFormattedVal(address + "_" + city + "-" + state)
-        } else if (searchVal && type === "postal_code"){
+        } else if (searchVal && type === "postal_code") {
             var stringArray = searchVal.label.split(",")
             var city = stringArray[0].toString().toLowerCase().replace(" ", "-");
             stringArray[1] = stringArray[1].trim();
             var state = stringArray[1].substring(0, stringArray[1].indexOf(' ')).toLowerCase();
-            var zip =  stringArray[1].substring(stringArray[1].indexOf(' ') + 1);
+            var zip = stringArray[1].substring(stringArray[1].indexOf(' ') + 1);
             setFormattedVal(city + '-' + state + '-' + zip);
         }
         //TO DO Implement search by zipcode
@@ -236,21 +236,21 @@ export default function ScanningTool() {
                                     height='250px'
                                 >
                                     <AlertIcon boxSize='40px' mr={0} />
-                                    <AlertTitle mt={4} mb= {5} fontSize='lg'>
+                                    <AlertTitle mt={4} mb={5} fontSize='lg'>
                                         Uh Oh!
                                     </AlertTitle>
                                     <AlertDescription maxWidth='sm'>
                                         {data[1]}
                                     </AlertDescription>
                                     <Button
-                                            _hover={{
-                                                background: "white",
-                                                color: "red.400",
-                                            }}
-                                            onClick={resetData}
-                                            color={'white'} bg={'red.400'} mt={5} alignSelf={'center'}>
-                                            Search Again
-                                        </Button>
+                                        _hover={{
+                                            background: "white",
+                                            color: "red.400",
+                                        }}
+                                        onClick={resetData}
+                                        color={'white'} bg={'red.400'} mt={5} alignSelf={'center'}>
+                                        Search Again
+                                    </Button>
                                 </Alert>
                             }
                         </Stack>
