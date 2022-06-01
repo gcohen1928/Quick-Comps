@@ -5,6 +5,7 @@ export const CSVHEADER = [
     { label: 'Zip', key: 'zip' },
     { label: 'Address', key: 'addy' },
     { label: 'Year', key: 'year' },
+    { label: '#_Units', key: 'count' },
     { label: 'Phone', key: 'phone' },
     { label: 'Link', key: 'link' },
     { label: 'Beds', key: 'bed' },
@@ -12,9 +13,11 @@ export const CSVHEADER = [
     { label: 'SQFT', key: 'sf' },
     { label: 'Rent', key: 'rent' },
     { label: 'PSF', key: 'psf' },
+    { label: 'Availabilty', key: 'avail' },
+    { label: 'Notes', key: 'notes'}
+
     { label: 'APTCOUNT', key: 'num' },
     { label: 'Availabilty', key: 'avail' }
-]
 
 export const ERRORS = {
     204 : 'No properties available in this location. Please search another place',
