@@ -167,6 +167,6 @@ const link_to_csv = async (link) => {
 	////////////////////////////// WRITE TO CSV /////////////////////////////////////
 }
 
-//link_to_csv(URL);
+
 
 module.exports = link_to_csv
