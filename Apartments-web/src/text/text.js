@@ -6,15 +6,15 @@ export const CSVHEADER = [
     { label: 'Address', key: 'addy' },
     { label: 'Year', key: 'year' },
     { label: '#_Units', key: 'count' },
-    { label: 'Phone', key: 'phone' },
-    { label: 'Link', key: 'link' },
     { label: 'Beds', key: 'bed' },
     { label: 'Baths', key: 'bath' },
     { label: 'SQFT', key: 'sf' },
     { label: 'Rent', key: 'rent' },
     { label: 'PSF', key: 'psf' },
     { label: 'Availabilty', key: 'avail' },
-    { label: 'Notes', key: 'notes'}
+    { label: 'Notes', key: 'notes'},
+    { label: 'Phone', key: 'phone' },
+    { label: 'Link', key: 'link' }
 ]
 
 export const ERRORS = {
