@@ -14,7 +14,9 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
-    Progress
+    Progress,
+    SimpleGrid,
+    Spacer
 } from '@chakra-ui/react';
 import WithSpeechBubbles from '../components/Testimonials/testimonials';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
@@ -24,6 +26,7 @@ import { Link as RouteLink } from 'react-router-dom';
 import { writeCSV } from '../service/example2';
 import { CSVLink } from 'react-csv';
 import { CSVHEADER, ERRORS } from '../text/text';
+import { RotatingSquare, ThreeDots } from 'react-loader-spinner'
 
 
 
@@ -32,7 +35,7 @@ var suffix = require("street-suffix")
 
 
 export default function ScanningTool() {
-    const [searchVal, setSearchVal] = useState('')
+    const [searchVal, setSearchVal] = useState(null)
     const [type, setType] = useState('locality')
     const [formattedVal, setFormattedVal] = useState('')
     const [loadingVal, setLoadingVal] = useState(0)
@@ -43,6 +46,11 @@ export default function ScanningTool() {
         var city = stringArray[0].toStrig().toLowerCase().replace(" ", "-")
         var state = stringArray[1].toString().toLowerCase()
         return city + "-" + state
+    }
+
+    const resetData = () => {
+        setData(['Empty!'])
+        setSearchVal(null)
     }
 
 
@@ -111,7 +119,7 @@ export default function ScanningTool() {
         <>
             <Flex
                 w={'full'}
-                h={'60vh'}
+                h={'65vh'}
                 backgroundImage={
                     'url(https://i.postimg.cc/bv0FR9kk/image-1.jpg)'
 
@@ -155,7 +163,7 @@ export default function ScanningTool() {
                                 debounce={2000}
                                 minLengthAutocomplete={3}
                             />
-                            {(searchVal !== "") &&
+                            {searchVal && data.length === 1 &&
                                 <Button _hover={{
                                     background: "green.400",
                                     color: "white",
@@ -166,12 +174,16 @@ export default function ScanningTool() {
                                 </Button>
                             }
                             {data.length === 0 &&
-                                < Stack w='full' justifyContent={'center'} >
-
-                                    <Text alignSelf={'center'} color="white">Your CSV is loading ... This should take up to 1 minute</Text>
-                                    <Progress colorScheme="green" isAnimated hasStripe height={'25px'}
-                                        value={100} />
-                                </Stack>}
+                                <>
+                                    < Stack w='full' justifyContent={'center'} alignItems="center" >
+                                        <ThreeDots ariaLabel="rotating-square" visible={true} color="white" />
+                                        <Text alignSelf={'center'} fontSize="2xl" color="white">Your CSV is loading ... This should take up to 1 minute</Text>
+                                        <Text alignSelf={'center'} color="white">A link to receieve your file will show here soon!</Text>
+                                    </Stack>
+                                    {/* <Progress colorScheme="green" isAnimated hasStripe height={'25px'}
+                                        value={100} /> */}
+                                </>
+                            }
                             {data && data.length > 1 && (data[0] !== 'Error') && (
                                 <Alert
                                     status='success'
@@ -189,15 +201,27 @@ export default function ScanningTool() {
                                     <AlertDescription maxWidth='sm'>
                                         Press the button below to download your CSV file
                                     </AlertDescription>
-                                    <CSVLink headers={CSVHEADER} data={data} filename={`quick-comps-${formattedVal}.csv`}>
-                                        <Button
+                                    <Flex justifyContent={'space-between'}>
+                                        <CSVLink headers={CSVHEADER} data={data} filename={`quickcomps/${formattedVal}.csv`}>
+                                            <Button
 
+                                                _hover={{
+                                                    background: "green.400",
+                                                    color: "white",
+                                                }} w="full" color={'white'} bg={'green.600'}
+                                                mt={5} mr={5} alignSelf={'center'}>Download CSV</Button>
+                                        </CSVLink>
+                                        <Button
+                                            ml={5}
                                             _hover={{
                                                 background: "green.400",
                                                 color: "white",
-                                            }} w="full" color={'white'} bg={'green.600'}
-                                            mt={5} alignSelf={'center'}>Download CSV</Button>
-                                    </CSVLink>
+                                            }}
+                                            onClick={resetData}
+                                            color={'white'} bg={'teal.400'} mt={5} alignSelf={'center'}>
+                                            Search Again
+                                        </Button>
+                                    </Flex>
                                 </Alert>
 
                             )}
@@ -209,18 +233,24 @@ export default function ScanningTool() {
                                     alignItems='center'
                                     justifyContent='center'
                                     textAlign='center'
-                                    height='200px'
+                                    height='250px'
                                 >
                                     <AlertIcon boxSize='40px' mr={0} />
-                                    <AlertTitle mt={4} fontSize='lg'>
+                                    <AlertTitle mt={4} mb= {5} fontSize='lg'>
                                         Uh Oh!
-                                    </AlertTitle>
-                                    <AlertTitle mt={2} mb={4} fontSize='md'>
-                                        It looks like an error has occcured:
                                     </AlertTitle>
                                     <AlertDescription maxWidth='sm'>
                                         {data[1]}
                                     </AlertDescription>
+                                    <Button
+                                            _hover={{
+                                                background: "white",
+                                                color: "red.400",
+                                            }}
+                                            onClick={resetData}
+                                            color={'white'} bg={'red.400'} mt={5} alignSelf={'center'}>
+                                            Search Again
+                                        </Button>
                                 </Alert>
                             }
                         </Stack>
