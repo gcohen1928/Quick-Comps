@@ -103,7 +103,7 @@ export default function ScanningTool() {
             var zip =  stringArray[1].substring(stringArray[1].indexOf(' ') + 1);
             setFormattedVal(city + '-' + state + '-' + zip);
         }
-
+        //TO DO Implement search by zipcode
     }, [searchVal]);
 
 

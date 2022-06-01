@@ -15,7 +15,9 @@ export const CSVHEADER = [
     { label: 'PSF', key: 'psf' },
     { label: 'Availabilty', key: 'avail' },
     { label: 'Notes', key: 'notes'}
-]
+
+    { label: 'APTCOUNT', key: 'num' },
+    { label: 'Availabilty', key: 'avail' }
 
 export const ERRORS = {
     204 : 'No properties available in this location. Please search another place',
