@@ -9,8 +9,12 @@ import {
     Radio,
     Link,
     Box,
-    Progress,
-    ProgressLabel
+    Spinner,
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    Progress
 } from '@chakra-ui/react';
 import WithSpeechBubbles from '../components/Testimonials/testimonials';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
@@ -36,25 +40,18 @@ const header = [
     { label: 'PSF', key: 'psf' },
     { label: 'APTCOUNT', key: 'num' },
     { label: 'Availabilty', key: 'avail' }
-
-
-
-
 ]
 
 var suffix = require("street-suffix")
 // import { geocodeByAddress } from 'react-google-places-autocomplete';
 
 
-
-
-
 export default function ScanningTool() {
     const [searchVal, setSearchVal] = useState('')
     const [type, setType] = useState('locality')
     const [formattedVal, setFormattedVal] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [data, setData] = useState([])
+    const [loadingVal, setLoadingVal] = useState(0)
+    const [data, setData] = useState(['Empty!'])
 
     const formatCity = (str) => {
         var stringArray = str.split(',')
@@ -63,24 +60,39 @@ export default function ScanningTool() {
         return city + "-" + state
     }
 
+
+
     const getLink = async () => {
-        setLoading(true)
+        setData([])
         try {
             fetch('http://localhost:8000/api/scrape', { headers: { 'link': `https://apartments.com/${formattedVal}` } })
                 .then(response => {
-                    response.json().then(data => {
-                        console.log('Worked!')
-                        console.dir(data)
-                        console.log(data)
-                        setData(data)
-                    })
+                    if (response.status === 200)
+                        response.json().then(data => {
+                            console.log('Worked!')
+                            console.dir(data)
+                            console.log(data)
+                            setData(data)
+                        })
+                    else if (response.status === 204) {
+                        setData(['Error', 'No properties available in this locaiton. Please search another place'])
+                        console.log("Empty Array")
+                    } else if (response.status === 503) {
+                        setData(['Error', 'It looks like our server is down :(. Come check back in a little to see if we\'re back online!'])
+                        console.log('API not working')
+                    }
+                }).catch(e => {
+                    setData(['Error', 'It looks like your computer failed to reach our servers. Ensure you have a good internet connection and try again.'])
+                    console.log('Failed to fetch')
+                    console.error(e)
                 })
         }
-        catch (e) {
-            setData([])
-            console.log('Didnt work!')
+        catch (err) {
+            setData(['Error', 'misc'])
+            console.log('Didnt work 2!')
+            console.error(err)
+
         }
-        setLoading(false)
     }
 
     useEffect(() => {
@@ -103,11 +115,12 @@ export default function ScanningTool() {
         }
     }, [searchVal]);
 
+
     return (
         <>
             <Flex
                 w={'full'}
-                h={'50vh'}
+                h={'80vh'}
 
                 backgroundImage={
                     'url(https://i.postimg.cc/bv0FR9kk/image-1.jpg)'
@@ -163,15 +176,55 @@ export default function ScanningTool() {
                                     Submit
                                 </Button>
                             }
-                            {loading !== false && < Stack >
-                                <Text alignSelf={'center'} color="white">Your CSV is loading ... {64}%</Text>
-                                <Progress isAnimated colorScheme={'green'} hasStripe size='lg' value={64} />
-                            </Stack>}
-                            {data && data.length > 0 && (
-                                <CSVLink headers={header} data={data} filename="bsedata.csv">
-                                    <Button>DownLoad CSV</Button>
-                                </CSVLink>
+                            {data.length === 0 &&
+                                < Stack w='full' justifyContent={'center'} >
+                                    <Text alignSelf={'center'} color="white">Your CSV is loading ... This should take up to 1 minute</Text>
+                                    <Progress colorScheme="green" isAnimated hasStripe height={'25px'}
+                                        value={100} />
+                                </Stack>}
+                            {data && data.length > 1 && (data[0] !== 'Error') && (
+                                <Alert
+                                    status='success'
+                                    variant='subtle'
+                                    flexDirection='column'
+                                    alignItems='center'
+                                    justifyContent='center'
+                                    textAlign='center'
+                                    height='200px'
+                                >
+                                    <AlertIcon boxSize='40px' mr={0} />
+                                    <AlertTitle mt={4} mb={1} fontSize='lg'>
+                                        Success! Your CSV File has been generated
+                                    </AlertTitle>
+                                    <AlertDescription maxWidth='sm'>
+                                        Press the button below to download your CSV file
+                                    </AlertDescription>
+                                    <CSVLink headers={header} data={data} filename="bsedata.csv">
+                                        <Button alignSelf={'center'}>Download CSV</Button>
+                                    </CSVLink>
+                                </Alert>
+
+
                             )}
+                            {data && data.length > 1 && (data[0] === 'Error') &&
+                                <Alert
+                                    status='error'
+                                    variant='subtle'
+                                    flexDirection='column'
+                                    alignItems='center'
+                                    justifyContent='center'
+                                    textAlign='center'
+                                    height='200px'
+                                >
+                                    <AlertIcon boxSize='40px' mr={0} />
+                                    <AlertTitle mt={4} mb={1} fontSize='lg'>
+                                        Uh Oh! It looks like an error has occcured:
+                                    </AlertTitle>
+                                    <AlertDescription maxWidth='sm'>
+                                        {data[1]}
+                                    </AlertDescription>
+                                </Alert>
+                            }
                         </Stack>
                     </Stack>
                 </VStack>

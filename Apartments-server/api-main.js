@@ -30,6 +30,14 @@ app.listen(8000, () => {
 //Defines get path and return billboards array
 app.get('/api/scrape', async (req, res) => {
     const link = req.headers['link']
-    const response = await writeCSV(link, 'any')
-    res.status(200).send(response)
+    try {
+        const response = await writeCSV(link, 'any')
+        if (response.length === 0) {
+            res.status(204).send('No content available')
+        } else {
+            res.status(200).send(response)
+        }
+    } catch (err) {
+        res.status(503).send('API Services Down')
+    }
 })

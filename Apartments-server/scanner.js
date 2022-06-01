@@ -12,7 +12,7 @@ function link_to_fileName(link){
 
 	var today = new Date();
 	var dd = String(today.getDate()).padStart(2, '0');
-	var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+	var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0
 	var yyyy = today.getFullYear();
 
 	today = mm + '-' + dd + '-' + yyyy;
@@ -132,7 +132,7 @@ const link_to_csv = async (link) => {
 					var avail = $(this).find('div[class = "availableColumn column"] span[class = "dateAvailable"]').text().trim();
 					avail = avail.substring(avail.indexOf('\n') + 1).trim();
 					var psf = Number(parseInt(price) / parseInt(sqft)).toFixed(2);
-					avail = convert_date(avail);
+					//avail = convert_date(avail);
 					if(price > 0){
 						tmp.push(parseInt(beds))
 						tmp.push(parseInt(baths));
@@ -165,8 +165,6 @@ const link_to_csv = async (link) => {
 						avail: apartments[j][5]
 					});
 				}
-				console.log(records)
-
 			} catch (error){
 				throw error;
 			}
