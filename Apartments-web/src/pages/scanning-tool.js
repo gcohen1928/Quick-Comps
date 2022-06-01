@@ -150,7 +150,6 @@ export default function ScanningTool() {
                                 </Stack>
                             </RadioGroup>
                             <GooglePlacesAutocomplete
-
                                 apiKey={API_KEY}
                                 selectProps={{
                                     searchVal,
@@ -159,7 +158,7 @@ export default function ScanningTool() {
                                     placeholder: "Search for a place ... ",
                                     noOptionsMessage: () => { return 'Type something in!' }
                                 }}
-                                autocompletionRequest={{ types: [type] }}
+                                autocompletionRequest={{ types: [type],   componentRestrictions: { country: "us" }}}
                                 debounce={2000}
                                 minLengthAutocomplete={3}
                             />

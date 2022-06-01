@@ -14,6 +14,7 @@
     "cheerio": "^1.0.0-rc.11",
     "cheerio-react": "^1.0.2",
     "csv-writer": "^1.6.0",
+    "feeder-react-feedback": "0.0.6",
     "framer-motion": "^6.3.4",
     "http-proxy-middleware": "^2.0.6",
     "react": "^18.1.0",
