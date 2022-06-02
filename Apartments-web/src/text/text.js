@@ -19,7 +19,6 @@ export const CSVHEADER = [
 
 export const ERRORS = {
     204 : 'No properties available in this location. Please search another place',
-    503 : 'Something went wrong. Make sure your location is in the United States. If not, our servers might be down so check in again shortly!',
+    503 : 'Make sure your searching only in the US.\nIf not, our servers might be down so check in again shortly!',
     1 : 'It looks like your computer failed to reach our servers. Ensure you have a good internet connection and try again.'
-
 }

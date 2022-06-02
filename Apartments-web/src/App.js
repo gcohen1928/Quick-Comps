@@ -18,22 +18,28 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./pages/layout";
 import Home from "./pages/home";
 import ScanningTool from './pages/scanning-tool';
+import Feedback from "feeder-react-feedback";
+import "feeder-react-feedback/dist/feeder-react-feedback.css"; // import stylesheet
+import Pricing from './pages/pricing';
+import './App.css'
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <Box textAlign="top" fontSize="xl">
-        <WithSubnavigation/>
+        <WithSubnavigation />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Layout />}>
-              <Route index element={<Home />} />
-              <Route path="/home" element = {<Home />} />
-              <Route path = "/scanning-tool" element = {<ScanningTool />} />
+                <Route index element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/scanning-tool" element={<ScanningTool />} />
+                <Route path='/pricing' element={<Pricing />} />
             </Route>
           </Routes>
         </BrowserRouter>
-        <SmallCentered/>
+        <Feedback primaryColor="#66BB6A" projectId="62976cc43a88130004177023" />
+        <SmallCentered />
       </Box>
     </ChakraProvider>
   );
