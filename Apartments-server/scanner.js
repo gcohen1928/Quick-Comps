@@ -5,24 +5,6 @@ const cheerio = require("cheerio");
 let URL = 'https://www.apartments.com/?sk=83fcdebd8994b96d97e6a51a03319369&bb=h5th__m10J7tzpoH'
 
 
-function link_to_fileName(link){
-	let tmp = link.substring(link.indexOf(".com") + 5);
-	tmp = tmp.substring(0, tmp.indexOf('/'));
-	tmp = tmp.concat('---');
-
-	var today = new Date();
-	var dd = String(today.getDate()).padStart(2, '0');
-	var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0
-	var yyyy = today.getFullYear();
-
-	today = mm + '-' + dd + '-' + yyyy;
-	
-	tmp = tmp.concat(today);
-
-	return tmp.concat(".csv");
-}
-
-
 
 const link_to_csv = async (link) => {
 	let records = [];
@@ -51,7 +33,7 @@ const link_to_csv = async (link) => {
 		for(let i = 0; i < PROP_LINKS.length; i++){
 
 			//// COMPLETION TRACKER ////
-			console.log(i);
+			console.log((i + 1).toString() + "st page being scraped");
 			//// COMPLETION TRACKER ////
 
 			try{
@@ -65,12 +47,23 @@ const link_to_csv = async (link) => {
 				const propCity = $("#propertyAddressRow > div > h2 > span:nth-child(2)").text().trim();
 				const propState = $("#propertyAddressRow > div > h2 > span.stateZipContainer > span:nth-child(1)").text().trim();
 				const propZip = $("#propertyAddressRow > div > h2 > span.stateZipContainer > span:nth-child(2)").text().trim(); 
-				const propYear = parseInt($("#profileV2FeesWrapper > div.detailsContainer > div:nth-child(2) > div > div > div.component-body > ul > li:nth-child(1) > div > div.column").text().trim().replace(/\D/g,''));
-				var propUnitCount = $("#profileV2FeesWrapper > div.detailsContainer > div:nth-child(2) > div > div > div.component-body > ul > li:nth-child(2) > div > div.column").text().trim();
-				propUnitCount = parseInt(propUnitCount.substring(0, propUnitCount.indexOf(' '))); 
 				const propPhone = $("#officeHoursSection > div > div > div:nth-child(1) > div.phoneNumber > a").text().trim();
 				const propLink = $("#officeHoursSection > div > div > div:nth-child(1) > div.mortar-wrapper > a").attr('href');
 
+				var propYear = 0000;
+				var propUnitCount = 0000;
+				$('#profileV2FeesWrapper > div.detailsContainer > div').each(function (){
+					var tmp = $(this).find('h4[class="header-column"]').text().trim().toLowerCase();
+					if(tmp == "property information"){
+						propYear = $(this).find('li:nth-child(1)').text().trim().replace(/\D/g,'');
+						propYear = propYear.length > 2 ? propYear : "NaN";
+						propUnitCount = $(this).find('li:nth-child(2)').text().trim();
+						propUnitCount = parseInt(propUnitCount.substring(0, propUnitCount.indexOf(' '))); 
+					}
+				})
+				
+				
+				////////////////////////////// SINGLE FAMILY HOMES //////////////////////////////////
 				if(propDesc == "houses"){
 					var beds = $('#pricingView > div > div > div > div > div.column1 > div > h4 > span:nth-child(1) > span:nth-child(1)').text().trim().replace(/\D/g,'');
 					var baths = $('#pricingView > div > div > div > div > div.column1 > div > h4 > span:nth-child(1) > span:nth-child(2)').text().trim().replace(/\D/g,'');
@@ -105,28 +98,61 @@ const link_to_csv = async (link) => {
 						notes: "Single Family Home"
 					});
 					
-				} else{
+				} 
+				////////////////////////////// SINGLE FAMILY HOMES //////////////////////////////////
+				
+				else{
 					let apartments = [];
-					$('li[class ="unitContainer js-unitContainer "]').each(function () {
-						var tmp = [];
-						var beds = $(this).attr('data-beds');
-						var baths = $(this).attr('data-baths');
-						var rent = $(this).find('div[class = "pricingColumn column"] span:nth-child(2)').text().trim().replace(/\D/g,'');
-						var sqft = $(this).find('div[class = "sqftColumn column"] span:nth-child(2)').text().trim().replace(/\D/g,'');
-						var avail = $(this).find('div[class = "availableColumn column"] span[class = "dateAvailable"]').text().trim();
-						avail = avail.substring(avail.indexOf('\n') + 1).trim();
-						var psf = Number(parseInt(rent) / parseInt(sqft)).toFixed(2);
-						//avail = convert_date(avail);
-						if(rent > 0){
-							tmp.push(parseInt(beds))
-							tmp.push(parseInt(baths));
-							tmp.push(parseInt(sqft));
-							tmp.push(parseInt(rent));
-							tmp.push(parseInt(psf));
-							tmp.push(avail);
-							apartments.push(tmp);
-						}
-					});
+
+					////////////////////////////// APARTMENTS WITH NO SPECIFIED UNITS //////////////////////////////////
+					if($('li[class ="unitContainer js-unitContainer "]').length == 0){
+						$('#pricingView > div.tab-section.active > div').each(function () {
+							var tmp = []
+							var beds = $(this).find('span[class= "detailsTextWrapper"] span:nth-child(1)').text().trim().replace(/\D/g,'');
+							var baths = $(this).find('span[class= "detailsTextWrapper"] span:nth-child(2)').text().trim().replace(/\D/g,'');
+							var sqft = $(this).find('span[class= "detailsTextWrapper"] span:nth-child(3)').text().trim().replace(/\D/g,'');
+							var rent = $(this).find('span[class="rentLabel"]').text().trim().substring(1); //fix
+							var avail = $(this).find('span[class="availabilityInfo"]').text().trim(); //fix
+							if(rent.length > 7){
+								rent = rent.substring(0, rent.indexOf(' '))
+							}
+							rent = parseInt(rent.replace(/\D/g,''));
+							var psf = Number(parseInt(rent) / parseInt(sqft)).toFixed(2);
+							if(rent > 0){
+								tmp.push(parseInt(beds))
+								tmp.push(parseInt(baths));
+								tmp.push(parseInt(sqft));
+								tmp.push(rent);
+								tmp.push(parseFloat(psf));
+								tmp.push(avail);
+								apartments.push(tmp);
+							}						
+						})
+					}
+					////////////////////////////// APARTMENTS WITH NO SPECIFIED UNITS //////////////////////////////////
+
+					else{
+						$('li[class ="unitContainer js-unitContainer "]').each(function () {
+							var tmp = [];
+							var beds = $(this).attr('data-beds');
+							var baths = $(this).attr('data-baths');
+							var rent = $(this).find('div[class = "pricingColumn column"] span:nth-child(2)').text().trim().replace(/\D/g,'');
+							var sqft = $(this).find('div[class = "sqftColumn column"] span:nth-child(2)').text().trim().replace(/\D/g,'');
+							var avail = $(this).find('div[class = "availableColumn column"] span[class = "dateAvailable"]').text().trim();
+							avail = avail.substring(avail.indexOf('\n') + 1).trim();
+							var psf = Number(parseInt(rent) / parseInt(sqft)).toFixed(2);
+							if(rent > 0){
+								tmp.push(parseInt(beds))
+								tmp.push(parseInt(baths));
+								tmp.push(parseInt(sqft));
+								tmp.push(parseInt(rent));
+								tmp.push(parseFloat(psf));
+								tmp.push(avail);
+								apartments.push(tmp);
+							}
+						});
+					}
+
 			////////////////////////////// SCRAPE PROPERTY PAGES /////////////////////////////
 
 			////////////////////////////// WRITE TO CSV /////////////////////////////////////

@@ -6,8 +6,6 @@ export const CSVHEADER = [
     { label: 'Address', key: 'addy' },
     { label: 'Year', key: 'year' },
     { label: '#_Units', key: 'count' },
-    { label: 'Phone', key: 'phone' },
-    { label: 'Link', key: 'link' },
     { label: 'Beds', key: 'bed' },
     { label: 'Baths', key: 'bath' },
     { label: 'SQFT', key: 'sf' },
@@ -15,9 +13,8 @@ export const CSVHEADER = [
     { label: 'PSF', key: 'psf' },
     { label: 'Availabilty', key: 'avail' },
     { label: 'Notes', key: 'notes'},
-    { label: 'APTCOUNT', key: 'num' },
-    { label: 'Availabilty', key: 'avail' }
-
+    { label: 'Phone', key: 'phone' },
+    { label: 'Link', key: 'link' }
 ]
 
 export const ERRORS = {
