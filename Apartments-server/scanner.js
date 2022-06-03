@@ -70,12 +70,17 @@ const link_to_csv = async (link) => {
 					var rent = $('#pricingView > div > div > div > div > div.column1 > div > h3 > span.rentLabel').text().trim().replace(/\D/g,'');
 					var sqft = $('#priceBedBathAreaInfoWrapper > div > div > ul > li:nth-child(4) > div > p.rentInfoDetail').text().trim().replace(/\D/g,'');
 					sqft = parseInt(sqft);
-					var avail = $('#pricingView > div > div > div > div > div.column1 > div > h4 > span.detailsTextWrapper.leaseDepositLabel > span.availabilityInfo').text().trim();
-					if(sqft == NaN){
-						var psf = NaN;
-					} else{
+					if(sqft != NaN){
+						if(sqft.length > 5){
+							sqft = sqft.substring(0, sqft.indexOf(' '))
+							sqft = sqft.replace(/\D/g,'');
+						}
 						var psf = Number(parseInt(rent) / sqft).toFixed(2);
+					} else{
+						var psf = NaN
 					}
+
+					var avail = $('#pricingView > div > div > div > div > div.column1 > div > h4 > span.detailsTextWrapper.leaseDepositLabel > span.availabilityInfo').text().trim();
 					if(avail == "Available Now"){
 						avail = "Now";
 					}
@@ -92,8 +97,8 @@ const link_to_csv = async (link) => {
 						bed: parseInt(beds),
 						bath: parseInt(baths),
 						sf: parseInt(sqft),
-						rent: parseInt(rent),
-						psf: parseFloat(psf),
+						rent: '$'.concat(parseInt(rent)),
+						psf: '$'.concat(parseFloat(psf)),
 						avail: avail,
 						notes: "Single Family Home"
 					});
@@ -111,6 +116,10 @@ const link_to_csv = async (link) => {
 							var beds = $(this).find('span[class= "detailsTextWrapper"] span:nth-child(1)').text().trim().replace(/\D/g,'');
 							var baths = $(this).find('span[class= "detailsTextWrapper"] span:nth-child(2)').text().trim().replace(/\D/g,'');
 							var sqft = $(this).find('span[class= "detailsTextWrapper"] span:nth-child(3)').text().trim().replace(/\D/g,'');
+							if(sqft.length > 5){
+								sqft = sqft.substring(0, sqft.indexOf(' '))
+								sqft = sqft.replace(/\D/g,'');
+							}
 							var rent = $(this).find('span[class="rentLabel"]').text().trim().substring(1); //fix
 							var avail = $(this).find('span[class="availabilityInfo"]').text().trim(); //fix
 							if(rent.length > 7){
@@ -118,12 +127,12 @@ const link_to_csv = async (link) => {
 							}
 							rent = parseInt(rent.replace(/\D/g,''));
 							var psf = Number(parseInt(rent) / parseInt(sqft)).toFixed(2);
-							if(rent > 0){
+							if(rent > 0 && beds != NaN){
 								tmp.push(parseInt(beds))
 								tmp.push(parseInt(baths));
 								tmp.push(parseInt(sqft));
-								tmp.push(rent);
-								tmp.push(parseFloat(psf));
+								tmp.push('$'.concat(rent));
+								tmp.push('$'.concat(parseFloat(psf)));
 								tmp.push(avail);
 								apartments.push(tmp);
 							}						
@@ -138,15 +147,19 @@ const link_to_csv = async (link) => {
 							var baths = $(this).attr('data-baths');
 							var rent = $(this).find('div[class = "pricingColumn column"] span:nth-child(2)').text().trim().replace(/\D/g,'');
 							var sqft = $(this).find('div[class = "sqftColumn column"] span:nth-child(2)').text().trim().replace(/\D/g,'');
+							if(sqft.length > 5){
+								sqft = sqft.substring(0, sqft.indexOf(' '))
+								sqft = sqft.replace(/\D/g,'');
+							}
 							var avail = $(this).find('div[class = "availableColumn column"] span[class = "dateAvailable"]').text().trim();
 							avail = avail.substring(avail.indexOf('\n') + 1).trim();
 							var psf = Number(parseInt(rent) / parseInt(sqft)).toFixed(2);
-							if(rent > 0){
+							if(rent > 0 && beds != NaN){
 								tmp.push(parseInt(beds))
 								tmp.push(parseInt(baths));
 								tmp.push(parseInt(sqft));
-								tmp.push(parseInt(rent));
-								tmp.push(parseFloat(psf));
+								tmp.push('$'.concat(parseInt(rent)));
+								tmp.push('$'.concat(parseFloat(psf)));
 								tmp.push(avail);
 								apartments.push(tmp);
 							}
