@@ -14,6 +14,9 @@ const Layout = () => {
           <li>
               <Link to = '/pricing'></Link>
           </li>
+          <li>
+              <Link to = '/log-in'></Link>
+          </li>
         </ul>
       </nav>
       <Outlet/>
