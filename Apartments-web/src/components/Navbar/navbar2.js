@@ -73,8 +73,8 @@ import {
               fontSize={'sm'}
               fontWeight={400}
               variant={'link'}
-              href={'#'}>
-              Sign In
+              href={'/log-in'}>
+              Log In
             </Button>
             <Button
               display={{ base: 'none', md: 'inline-flex' }}

@@ -22,20 +22,32 @@ import Feedback from "feeder-react-feedback";
 import "feeder-react-feedback/dist/feeder-react-feedback.css"; // import stylesheet
 import Pricing from './pages/pricing';
 import './App.css'
+import LogIn from './pages/login';
+import Amplify from 'aws-amplify';
+import { COGNITO } from './configs/aws'
+import {Switch} from 'react-router'
+import {ReactNotifications} from 'react-notifications-component'
+
+Amplify.configure({
+  aws_cognito_region: COGNITO.REGION,
+  aws_user_pools_id: COGNITO.USER_POOL_ID,
+  aws_user_pools_web_client_id: COGNITO.APP_CLIENT_ID,
+});
+
 
 function App() {
   return (
     <ChakraProvider theme={theme}>
+      <ReactNotifications />
       <Box textAlign="top" fontSize="xl">
         <WithSubnavigation />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Layout />}>
                 <Route index element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/scanning-tool" element={<ScanningTool />} />
                 <Route path='/pricing' element={<Pricing />} />
-            </Route>
+                <Route path='/log-in' element={<LogIn />} />
           </Routes>
         </BrowserRouter>
         <Feedback primaryColor="#66BB6A" projectId="62976cc43a88130004177023" />
