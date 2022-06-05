@@ -24,6 +24,7 @@ import { Link as RouteLink } from 'react-router-dom';
 import { writeCSV } from '../service/example2';
 import { CSVLink } from 'react-csv';
 import { CSVHEADER, ERRORS } from '../text/text';
+import { Checkbox, CheckboxGroup } from '@chakra-ui/react'
 
 
 
@@ -78,9 +79,7 @@ export default function ScanningTool() {
     useEffect(() => {
         //var new_str = "helloo"
         if (searchVal && type === "locality") {
-            console.log(searchVal)
             var stringArray = searchVal.label.split(",")
-            console.log(stringArray)
             var city = stringArray[0].toString().toLowerCase().replace(" ", "-")
             var state = stringArray[1].toString().toLowerCase().replace(" ", "")
             setFormattedVal(city + "-" + state)
@@ -88,12 +87,31 @@ export default function ScanningTool() {
         //TO DO Implement search by zipcode
         else if (searchVal && type === "address") {
             var stringArray = searchVal.label.split(",")
-            var address = stringArray[0].toString().toLowerCase().replace(" ", "-")
-            console.log(address)
-            // addressArray[-1] = suffix.abbreviate(addressArray[-1])
-            //var newAddress = addressArray
+            var addyArray = stringArray[0].toString().toLowerCase().split(" ")
+            var address = ""
+            var directions = {
+                "north":"n",
+                "south":"s",
+                "east":"e",
+                "west":"w"
+            }
+            for(let i = 0; i < addyArray.length; i++){
+                var cur = addyArray[i];
+                if(suffix.abbreviate(cur) == undefined && directions[cur] == undefined){
+                    address += cur
+                } else if(directions[cur] != undefined){
+                    address += directions[cur]
+                } else{
+                    address += suffix.abbreviate(cur).toLowerCase()
+                }
+                if(i != addyArray.length - 1){
+                    address += '-'
+                }
+            }
             var city = stringArray[1].toString().toLowerCase().replace(" ", "")
             var state = stringArray[2].toString().toLowerCase().replace("", "")
+            state = state.trim()
+            console.log(address + "_" + city + "-" + state)
             setFormattedVal(address + "_" + city + "-" + state)
         } else if (searchVal && type === "postal_code"){
             var stringArray = searchVal.label.split(",")
@@ -119,6 +137,7 @@ export default function ScanningTool() {
                 backgroundSize={'cover'}
                 backgroundPosition={'center center'}
             >
+                
                 <VStack
                     w={'full'}
                     justify={'center'}
