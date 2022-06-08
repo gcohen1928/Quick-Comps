@@ -35,6 +35,7 @@ import {
           await Auth.signIn(email, password);
           Notif("Success!!", "Login Successfully", "success");
           navigate("/", { replace: true });
+          window.location.reload(false)
         } catch (error) {
           Notif("Error", error.message, "danger");
         }

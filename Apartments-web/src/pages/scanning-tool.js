@@ -41,19 +41,10 @@ export default function ScanningTool() {
     const [loadingVal, setLoadingVal] = useState(0)
     const [data, setData] = useState(['Empty!'])
 
-    const formatCity = (str) => {
-        var stringArray = str.split(',')
-        var city = stringArray[0].toStrig().toLowerCase().replace(" ", "-")
-        var state = stringArray[1].toString().toLowerCase()
-        return city + "-" + state
-    }
-
     const resetData = () => {
         setData(['Empty!'])
         setSearchVal(null)
     }
-
-
 
     const getLink = async () => {
         setData([])
@@ -258,6 +249,5 @@ export default function ScanningTool() {
             </Flex>
             <WithSpeechBubbles />
         </>
-
     );
 }

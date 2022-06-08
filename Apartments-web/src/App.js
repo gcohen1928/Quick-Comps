@@ -10,7 +10,7 @@ import {
   theme,
 } from '@chakra-ui/react';
 import { ColorModeSwitcher } from './ColorModeSwitcher';
-import WithSubnavigation from './components/Navbar/navbar2';
+import Navbar from './components/Navbar/navbar'
 import SplitScreen from './components/Home/home-screen';
 import SmallCentered from './components/Footer/footer';
 
@@ -25,8 +25,9 @@ import './App.css'
 import LogIn from './pages/login';
 import Amplify from 'aws-amplify';
 import { COGNITO } from './configs/aws'
-import {Switch} from 'react-router'
-import {ReactNotifications} from 'react-notifications-component'
+import { Switch } from 'react-router'
+import { ReactNotifications } from 'react-notifications-component'
+import SignUp from './pages/signup';
 
 Amplify.configure({
   aws_cognito_region: COGNITO.REGION,
@@ -40,14 +41,15 @@ function App() {
     <ChakraProvider theme={theme}>
       <ReactNotifications />
       <Box textAlign="top" fontSize="xl">
-        <WithSubnavigation />
         <BrowserRouter>
+        <Navbar />
           <Routes>
-                <Route index element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/scanning-tool" element={<ScanningTool />} />
-                <Route path='/pricing' element={<Pricing />} />
-                <Route path='/log-in' element={<LogIn />} />
+            <Route index element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/scanning-tool" element={<ScanningTool />} />
+            <Route path='/pricing' element={<Pricing />} />
+            <Route path='/log-in' element={<LogIn />} />
+            <Route path='/sign-up' element={<SignUp />} />
           </Routes>
         </BrowserRouter>
         <Feedback primaryColor="#66BB6A" projectId="62976cc43a88130004177023" />
