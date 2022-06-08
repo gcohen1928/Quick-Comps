@@ -1,23 +1,37 @@
-import React from "react"
-import { NavBarContainer } from "./navbar-container"
-import {Logo} from './logo'
-import { MenuLinks } from "./menu-links"
-import { MenuToggle } from "./menu-toggle"
+import React, {useState} from 'react'
+import { Auth } from "aws-amplify";
+import { Route, Redirect } from "react-router-dom";
+import PublicNav from './navbar2';
+import AuthNav from './authnav';
 
+const Navbar = ({ component }) => {
+  const [isAuthenticated, setLoggedIn] = useState(true);
+  const [loading, setLoading] = useState(false)
 
-export const NavBar = (props) => {
-    const [isOpen, setIsOpen] = React.useState(false)
+  React.useEffect(() => {
+    (async () => {
+      let user = null;
+      try {
+        user = await Auth.currentAuthenticatedUser();
+        if (user) {
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      } catch (e) {
+        setLoggedIn(false);
+      }
+    })();
+  });
+
+  return (
   
-    const toggle = () => setIsOpen(!isOpen)
-  
-    return (
-      <NavBarContainer {...props}>
-        <Logo
-          w="200px"
-          color={["black", "black", "black", "black"]}
-        />
-        <MenuToggle toggle={toggle} isOpen={isOpen} />
-        <MenuLinks isOpen={isOpen} />
-      </NavBarContainer>
-    )
-  }
+        isAuthenticated ? (
+           <AuthNav />
+        ) : (
+          <PublicNav />
+        )
+  );
+};
+
+export default Navbar;
