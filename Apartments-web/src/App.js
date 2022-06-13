@@ -24,10 +24,11 @@ import Pricing from './pages/pricing';
 import './App.css'
 import LogIn from './pages/login';
 import Amplify from 'aws-amplify';
-import { COGNITO } from './configs/aws'
+import { COGNITO } from './configs/aws-configs'
 import { Switch } from 'react-router'
 import { ReactNotifications } from 'react-notifications-component'
 import SignUp from './pages/signup';
+import Verification from './pages/verification';
 
 Amplify.configure({
   aws_cognito_region: COGNITO.REGION,
