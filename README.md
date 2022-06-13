@@ -26,14 +26,14 @@
     <img src="Apartments-web/src/components/qctext.png" alt="Logo" width = "400" >
   </a>
 
-  <h3 align="center">Quick Comps</h3>
+  <h3 align="center">Welcome to Quick Comps!</h3>
 
   <p align="center">
-    Welcome to Quick Comps!
+    Our beta is now live! Click the link below to get free access to our tool.
     <br />
     <br />
     <br />
-    <a href="quickcomps.us">www.quickcomps.us</a>
+    https://quickcomps.us
   </p>
 </div>
 
@@ -64,8 +64,8 @@
 ## About The Project
 
 <p float="center">
-<img src="Apartments-web/public/screenshots/sc1.png" alt="Screenshot" width = "500" >
-<img src="Apartments-web/public/screenshots/sc2.png" alt="Screenshot" width = "500  >
+<img src="Apartments-web/public/screenshots/sc1.png" alt="Screenshot" width = "400" >
+<img src="Apartments-web/public/screenshots/sc2.png" alt="Screenshot" width = "400  >
 </p>
 
 
