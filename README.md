@@ -22,7 +22,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/Quick-Comps">
+  <a href="https://github.com/gcohen1928/Quick-Comps">
     <img src="Apartments-web/src/components/qctext.png" alt="Logo" width = "400" >
   </a>
 
@@ -34,7 +34,6 @@
     <br />
     <br />
     <a href="quickcomps.us">www.quickcomps.us</a>
-    ·
   </p>
 </div>
 
@@ -64,10 +63,15 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<img src="Apartments-web/public/screenshots/sc1.png" alt="Screenshot" width = "400" >
-<img src="Apartments-web/public/screenshots/sc3.png" alt="Screenshot" width = "400" >
+<p float="center">
+<img src="Apartments-web/public/screenshots/sc1.png" alt="Screenshot" width = "500" >
+<img src="Apartments-web/public/screenshots/sc2.png" alt="Screenshot" width = "500  >
+</p>
 
 
+
+<br />
+<br />                                                                              
 
 This React app is a tool designed to help real estate professionals automate their tedious rental research process. It saves countless hours of searching through apartments for rent online and allows real estate professionals to thrive.
 
@@ -85,6 +89,7 @@ Here's why:
 * [React.js](https://reactjs.org/)
 * [Chakra UI](https://chakra-ui.com/)
 * [Node.js](https://nodejs.org/)
+* [AWS](https://aws.amazon.com/)                                
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
