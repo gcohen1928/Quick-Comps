@@ -16,7 +16,6 @@ import {
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import useInput from '../components/Inputs';
 import { useNavigate } from 'react-router-dom';
 import { Notif } from '../components/Notifications/notif';
 import {Auth} from 'aws-amplify'
@@ -52,7 +51,7 @@ export default function SignUp() {
             },
           });
           Notif("Success!!", "Signup was successful", "success");
-          navigate("/log-in", {replace: true})
+          navigate("/sign-in", {replace: true})
         } catch (error) {
           console.error(error);
           Notif("Error!!", error.message, "danger");

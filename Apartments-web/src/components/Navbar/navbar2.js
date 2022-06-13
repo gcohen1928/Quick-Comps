@@ -61,12 +61,15 @@ export default function PublicNav() {
           />
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
-            Quick Comps
-          </Text>
+          <Link href="/" >
+
+            <Box display={'flex'} flexDirection={'row'} justify={{ base: 'none', md: 'center' }} >
+              <Box maxW={150} mr={'10'} >
+                <img src={require('../qctext.png')} />
+              </Box>
+
+            </Box>
+          </Link>
 
           <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
             <DesktopNav />
@@ -115,7 +118,7 @@ const DesktopNav = () => {
   const popoverContentBgColor = useColorModeValue('white', 'gray.800');
 
   return (
-    <Stack direction={'row'} spacing={4}>
+    <Stack ml={"-10"} alignItems={'center'} justifyContent={'center'} direction={'row'} spacing={4}>
       {NAV_ITEMS.map((navItem) => (
         <Box key={navItem.label}>
           <Popover trigger={'hover'} placement={'bottom-start'}>
@@ -257,38 +260,20 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
   {
-    label: 'Get Started',
+    label: 'Scanning Tool',
     children: [
       {
         label: 'Scanning Tool',
         subLabel: 'Generate your CSV files now',
         href: '/scanning-tool',
       },
-      {
-        label: 'Pricing',
-        href: '/pricing',
-      },
     ],
     href: '/scanning-tool'
   },
+
   {
-    label: 'How it Works',
-    children: [
-      {
-        label: 'Our Tool',
-        href: '/our-tool',
-      },
-      {
-        label: 'Support',
-        subLabel: 'Find out how we can help you',
-        href: '/support',
-      },
-    ],
-    href: '/our-tool'
-  },
-  {
-    label: 'About Us',
-    href: '/about-us',
+    label: 'Pricing',
+    href: '/pricing',
   },
 
 ];
