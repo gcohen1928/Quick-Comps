@@ -96,8 +96,7 @@ export default function WithSpeechBubbles() {
             <TestimonialContent>
               <TestimonialHeading>Efficient Collaborating</TestimonialHeading>
               <TestimonialText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                Quick Comps has been able to cater to all of my specific comp-set needs. They are so easy to contact and are extremely supportive. 
               </TestimonialText>
             </TestimonialContent>
             <TestimonialAvatar
@@ -112,32 +111,30 @@ export default function WithSpeechBubbles() {
             <TestimonialContent>
               <TestimonialHeading>Intuitive Design</TestimonialHeading>
               <TestimonialText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                It's so easy to use and it provides a service that saves me so much time. I used to do them all by hand and this has completely eliminated that tedious work 
               </TestimonialText>
             </TestimonialContent>
             <TestimonialAvatar
               src={
-                'https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
+                'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
               }
-              name={'Jane Cooper'}
-              title={'CEO at ABC Corporation'}
+              name={'Cooper Jane'}
+              title={'President at EFG LLC'}
             />
           </Testimonial>
           <Testimonial>
             <TestimonialContent>
               <TestimonialHeading>Mindblowing Service</TestimonialHeading>
               <TestimonialText>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Auctor
-                neque sed imperdiet nibh lectus feugiat nunc sem.
+                I didn't believe how fast Quick Comps was until I tried it. It has impressed me time and time again and I use it almost every day
               </TestimonialText>
             </TestimonialContent>
             <TestimonialAvatar
               src={
-                'https://images.unsplash.com/photo-1586297135537-94bc9ba060aa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80'
+                'https://images.unsplash.com/photo-1637684666587-91e51b10a555?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=924&q=80'
               }
-              name={'Jane Cooper'}
-              title={'CEO at ABC Corporation'}
+              name={'John Smith'}
+              title={'Principal at XYZ Corp'}
             />
           </Testimonial>
         </Stack>

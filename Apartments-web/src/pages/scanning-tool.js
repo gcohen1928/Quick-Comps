@@ -27,11 +27,9 @@ import { writeCSV } from '../service/example2';
 import { CSVLink } from 'react-csv';
 import { CSVHEADER, ERRORS } from '../text/text';
 import { RotatingSquare, ThreeDots } from 'react-loader-spinner'
+import Amplify, { API } from 'aws-amplify'
+import { API_CLIENT, API_INIT } from '../configs/aws-configs';
 
-
-
-var suffix = require("street-suffix")
-// import { geocodeByAddress } from 'react-google-places-autocomplete';
 
 
 export default function ScanningTool() {
@@ -41,43 +39,45 @@ export default function ScanningTool() {
     const [loadingVal, setLoadingVal] = useState(0)
     const [data, setData] = useState(['Empty!'])
 
-    const formatCity = (str) => {
-        var stringArray = str.split(',')
-        var city = stringArray[0].toStrig().toLowerCase().replace(" ", "-")
-        var state = stringArray[1].toString().toLowerCase()
-        return city + "-" + state
-    }
-
     const resetData = () => {
         setData(['Empty!'])
         setSearchVal(null)
     }
 
-
-
     const getLink = async () => {
         setData([])
+        const myInit = { // OPTIONAL
+            response: true, // OPTIONAL (return the entire Axios response object instead of only response.data)
+            pathParameters: {  // OPTIONAL
+                link: 'merrick-ny',
+            },
+        };
         try {
-            fetch('http://localhost:8000/api/scrape', { headers: { 'link': `https://apartments.com/${formattedVal}` } })
+            API.get(API_CLIENT.api, API_CLIENT.path + formattedVal)
                 .then(response => {
-                    if (response.status === 200)
-                        response.json().then(data => {
-                            console.log('Worked!')
-                            setData(data)
-                        })
-                    else if (response.status === 204) {
+                    console.log(response)
+                    if (Object.keys(response).length > 0){
+                            setData(response)
+                        }
+                    else if (Object.keys(response).length === 0) {
+                        console.log('didnt work 1')
                         setData(['Error', ERRORS[204]])
                     } else if (response.status === 503) {
+                        console.log('didnt work 2')
                         setData(['Error', ERRORS[503]])
                     }
+                    else {
+                        setData(["Error", ERRORS[1]])
+                    }
                 }).catch(e => {
+                    console.log('didn\'t work! 3')
                     setData(['Error', ERRORS[1]])
                     console.error(e)
                 })
         }
         catch (err) {
             setData(['Error', 'misc'])
-            console.log('Didnt work 2!')
+            console.log('Didnt work 4!')
             console.error(err)
 
         }
@@ -145,7 +145,6 @@ export default function ScanningTool() {
                             <RadioGroup p={2} rounded="md" bg={"green.400"} defaultValue={'locality'} color="white" onChange={setType} value={type}>
                                 <Stack direction='row' justifyContent={"space-evenly"}>
                                     <Radio value='locality'>Cities and Towns</Radio>
-                                    <Radio value='address'>Address</Radio>
                                     <Radio value='postal_code'>Postal Code</Radio>
                                 </Stack>
                             </RadioGroup>
@@ -177,7 +176,7 @@ export default function ScanningTool() {
                                     < Stack w='full' justifyContent={'center'} alignItems="center" >
                                         <ThreeDots ariaLabel="rotating-square" visible={true} color="white" />
                                         <Text alignSelf={'center'} fontSize="2xl" color="white">Your CSV is loading ... This should take up to 1 minute</Text>
-                                        <Text alignSelf={'center'} color="white">A link to receieve your file will show here soon!</Text>
+                                        <Text alignSelf={'center'} color="white">A link to receive your file will show here soon!</Text>
                                     </Stack>
                                     {/* <Progress colorScheme="green" isAnimated hasStripe height={'25px'}
                                         value={100} /> */}
@@ -258,6 +257,5 @@ export default function ScanningTool() {
             </Flex>
             <WithSpeechBubbles />
         </>
-
     );
 }
