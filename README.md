@@ -29,7 +29,7 @@
   <h3 align="center">Welcome to Quick Comps!</h3>
 
   <p align="center">
-    Our beta is now live! Click the link below to get free access to our tool.
+    Our beta is closed! We're developing more, so come back later and click the link to access our tool when its open again!.
     <br />
     <br />
     <br />
